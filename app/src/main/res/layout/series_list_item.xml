@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp">
+
+    <ImageView
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="11dp"
+        android:id="@+id/poster_image_view"
+        android:background="@mipmap/no_image_available"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/delete_button" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:text="Power"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/poster_image_view" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_season"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        android:text="Junio 2018"
+        android:layout_below="@+id/name"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/poster_image_view" />
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/delete_button"
+        android:layout_gravity="center_vertical"
+        android:background="@mipmap/delete_button"
+        android:layout_marginStart="15dp"
+        android:visibility="gone"
+        android:layout_alignTop="@+id/poster_image_view"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="11dp" />
+
+
+</RelativeLayout>

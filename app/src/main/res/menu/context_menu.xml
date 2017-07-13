@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/add_serie"
+        android:title="@string/add_serie"/>
+
+    <item android:id="@+id/delete_serie"
+        android:title="@string/delete_serie"/>
+
+    <item android:id="@+id/close_session"
+        android:title="@string/close_sesion"/>
+
+</menu>

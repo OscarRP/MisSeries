@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "664159606031",
+    "firebase_url": "https://misseries-74704.firebaseio.com",
+    "project_id": "misseries-74704",
+    "storage_bucket": "misseries-74704.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664159606031:android:ca7f6af07e1b7721",
+        "android_client_info": {
+          "package_name": "com.example.oscarruiz.misseries"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "664159606031-av9q5di3iliaopu6bbrol9je3kn6q4tb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyK2jcjSJa4Mq1Fdt9W96xdKNmFnB7N7E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

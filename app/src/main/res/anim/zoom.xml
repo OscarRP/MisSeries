@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <scale
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:fromXScale="0dp"
+        android:toXScale="100dp"
+        android:fromYScale="0dp"
+        android:toYScale="100dp"
+        android:pivotX="50%"
+        android:pivotY="50%">
+
+    <!--FromScale es el tamaño inicial-->
+    <!--ToScale es el tamaño final-->
+    <!--Pivot es el punto desde dónde empieza a escalar-->
+
+    </scale>

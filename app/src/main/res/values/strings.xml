@@ -1,0 +1,85 @@
+<resources>
+    <string name="app_name">Mis Series</string>
+
+    <string name="tmdb_attribution">This product uses the TMDb API but is not endorsed or certified by TMDb</string>
+
+    <!-- Reister Activity -->
+    <string name="register">REGISTRO</string>
+    <string name="nick">Introduce tu nick</string>
+    <string name="email">Introduce tu email</string>
+    <string name="password">Introduce tu contraseña</string>
+    <string name="register_button">Registrarse</string>
+    <string name="registered">Ya estoy registrado</string>
+    <string name="user_created">Usuario creado correctamente</string>
+    <string name="error">Se ha producido un error</string>
+    <string name="nick_empty">Debes rellenar el campo nick</string>
+    <string name="email_empty">Debes rellenar el campo email</string>
+    <string name="password_empty">Debes rellenar el campo password</string>
+
+    <!-- Login Activity -->
+    <string name="login">LOGIN</string>
+    <string name="login_button">Entrar</string>
+    <string name="not_registered">No estoy registrado</string>
+    <string name="login_error">Se ha producido un error</string>
+
+    <!-- Home Activity -->
+    <string name="no_series">Actualmente no has registrado ninguna serie que estés siguiendo.</string>
+    <string name="no_series2">Pulsa en el menú la opción añadir serie para registrar una.</string>
+    <string name="close_session_title_dialog">Cerrar Sesión</string>
+    <string name="close_session_message_dialog">¿Seguro que quieres cerrar la sesión?</string>
+    <string name="image_selection_title">Foto de perfil</string>
+    <string name="dialog_cancel_button">Cancelar</string>
+    <string name="dialog_ok_button">Aceptar</string>
+    <string name="no_info">Sin información</string>
+    <string name="sort">Ordenar series</string>
+
+    <!-- Menu Options -->
+    <string name="add_serie">Añadir Serie</string>
+    <string name="delete_serie">Eliminar Serie</string>
+    <string name="close_sesion">Cerrar Sesion</string>
+
+    <!-- Add Serie Activity -->
+    <string name="add_serie_header">AÑADIR SERIE</string>
+    <string name="home_header">BIENVENIDO</string>
+    <string name="type_title">Título</string>
+    <string name="type_season">Última temporada vista</string>
+    <string name="type_chapter">Último capítulo visto</string>
+    <string name="save_button">Guardar</string>
+    <string name="cancel_button">Cancelar</string>
+    <string name="no_title_typed">Por favor, introduce el título de la serie</string>
+    <string name="no_season_typed">Por favor, introduce la temporada que estás viendo</string>
+    <string name="no_chapter_typed">Por favor, introduce el último capítulo que has visto</string>
+    <string name="serie_exist">Ya añadiste esta serie, prueba con otra</string>
+    <string name="dialog_header">Resultados equivalentes al nombre que has introducido, escoge tu serie</string>
+    <string name="no_results_found">No se han encontrado resultados. Asegúrate de haber escrito bien el nombre</string>
+    <string name="select">Seleccionar</string>
+    <string name="no_selection">No escoger ninguna</string>
+    <string name="try_again">Revisar Nombre</string>
+    <string name="no_matter">Guardar así</string>
+
+    <!-- Alert Dialog -->
+    <string name="title">Eliminar serie</string>
+    <string name="description">¿Estas seguro que deseas eliminar esta serie?</string>
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+
+    <string name="title_no_connection">Error de conexión</string>
+    <string name="description_no_connection">Comprueba tu conexión a internet y vuelve a intentarlo</string>
+
+    <!-- Detail Serie -->
+    <string name="detail_header">DETALLE</string>
+    <string name="date_next_season">Comienzo de la próxima temporada</string>
+    <string name="accept_button">Aceptar</string>
+    <string name="no_date_new_season_defined">Sin definir</string>
+    <string name="copy_to_clipboard">Título copiado al clipboard</string>
+    <string name="year">Año</string>
+    <string name="genre">Género</string>
+    <string name="seasons">Temporadas</string>
+    <string name="chapter_time">Duración</string>
+    <string name="no_detail">No se ha encontrado información sobre esta serie</string>
+    <string name="press_button">Pulsa en la lupa para buscar esta serie en IMDb</string>
+    <string name="without_info">-</string>
+    <string name="add_calendar_title">Estreno temporada</string>
+    <string name="add_to_calendar">Añadir al calendario la fecha de estreno</string>
+
+</resources>
