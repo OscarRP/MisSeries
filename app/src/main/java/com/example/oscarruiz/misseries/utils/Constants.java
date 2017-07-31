@@ -100,4 +100,9 @@ public class Constants {
      * Calendar permission request code
      */
     public static final int CALENDAR_PERMISSION_REQUEST_CODE = 10;
+
+    /**
+     * serie status ended
+     */
+    public static final String SERIE_STATUS_ENDED = "Ended";
 }

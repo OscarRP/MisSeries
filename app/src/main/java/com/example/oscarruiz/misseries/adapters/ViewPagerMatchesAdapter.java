@@ -23,7 +23,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 /**
- * Created by Carlos Ruiz on 10/07/2017.
+ * Created by Oscar Ruiz on 10/07/2017.
  */
 
 public class ViewPagerMatchesAdapter extends PagerAdapter {

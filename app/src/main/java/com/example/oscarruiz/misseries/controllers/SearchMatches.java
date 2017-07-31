@@ -22,7 +22,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by Carlos Ruiz on 10/07/2017.
+ * Created by Oscar Ruiz on 10/07/2017.
  */
 
 public class SearchMatches  extends AsyncTask<Void, Void, ArrayList<ResponseSerie>> {

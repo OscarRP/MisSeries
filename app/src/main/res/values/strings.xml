@@ -81,5 +81,13 @@
     <string name="without_info">-</string>
     <string name="add_calendar_title">Estreno temporada</string>
     <string name="add_to_calendar">Añadir al calendario la fecha de estreno</string>
+    <string name="serie_status_ended">Serie terminada</string>
 
+    <!-- Info Serie -->
+    <string name="info_header">Información</string>
+    <string name="tab_info">Info</string>
+    <string name="season">Temporada</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

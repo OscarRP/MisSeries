@@ -5,11 +5,13 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.oscarruiz.misseries.R;
 
 /**
- * Created by Carlos Ruiz on 06/07/2017.
+ * Created by Oscar Ruiz on 06/07/2017.
  */
 
 public class Animations {
@@ -61,6 +63,15 @@ public class Animations {
      */
     public void alphaIn (View view, Context context, int duration) {
         animation = AnimationUtils.loadAnimation(context, R.anim.alpha_in);
+        animation.setDuration(duration);
+        view.startAnimation(animation);
+    }
+
+    /**
+     * Starts up to alpha animation
+     */
+    public void alphaOut (View view, Context context, int duration) {
+        animation = AnimationUtils.loadAnimation(context, R.anim.alpha);
         animation.setDuration(duration);
         view.startAnimation(animation);
     }
@@ -140,6 +151,56 @@ public class Animations {
 
             @Override
             public void onAnimationRepeat(Animation animation) {
+            }
+        });
+    }
+
+    /**
+     * starts zoomImageOut animations
+     */
+    public void zoomImageAnimationsIn(Context context, final LinearLayout contentLayout, final ImageView zoomImage) {
+        animation = AnimationUtils.loadAnimation(context, R.anim.alpha_in);
+        animation.setDuration(2500);
+        zoomImage.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                contentLayout.setVisibility(View.GONE);
+                zoomImage.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+    }
+
+    /**
+     * starts zoomImageOut animations
+     */
+    public void zoomImageAnimationsOut(Context context, final LinearLayout contentLayout, final ImageView zoomImage) {
+        animation = AnimationUtils.loadAnimation(context, R.anim.alpha);
+        animation.setDuration(1500);
+        zoomImage.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                zoomImage.setVisibility(View.GONE);
+                contentLayout.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
             }
         });
     }

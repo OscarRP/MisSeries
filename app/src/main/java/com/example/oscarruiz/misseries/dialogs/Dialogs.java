@@ -10,10 +10,15 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.oscarruiz.misseries.R;
+import com.example.oscarruiz.misseries.activities.DetailSerie;
+import com.example.oscarruiz.misseries.models.ResponseSerie;
+import com.example.oscarruiz.misseries.utils.Constants;
 
 import java.util.Calendar;
 
@@ -22,6 +27,10 @@ import java.util.Calendar;
  */
 
 public class Dialogs extends Dialog {
+    /**
+     * Image dialog
+     */
+    private AlertDialog imageDialog;
 
     /**
      * Error dialog
@@ -80,4 +89,5 @@ public class Dialogs extends Dialog {
         errorDialog = builder.create();
         return errorDialog;
     }
+
 }

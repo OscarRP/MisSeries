@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.SplashActivity"
+        <activity
+            android:name=".activities.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,18 +23,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.AddSerie"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.DetailSerie"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.HomeActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.RegisterActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.WebViewActivity"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activities.AddSerie"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.DetailSerie"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.WebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activities.InfoSerie"></activity>
     </application>
 
 </manifest>

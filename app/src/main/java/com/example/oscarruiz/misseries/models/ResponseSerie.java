@@ -24,6 +24,12 @@ public class ResponseSerie implements Serializable {
     private String imdbID;
 
     /**
+     * Serie status if its ended
+     */
+    @SerializedName("status")
+    private String status;
+
+    /**
      * Serie name
      */
     @SerializedName("name")
@@ -64,6 +70,12 @@ public class ResponseSerie implements Serializable {
      */
     @SerializedName("seasons")
     private ArrayList<Season> seasons;
+
+    /**
+     * Vote Average
+     */
+    @SerializedName("vote_average")
+    private Double voteAverage;
 
     public ResponseSerie() {
     }
@@ -142,5 +154,21 @@ public class ResponseSerie implements Serializable {
 
     public void setAirDate(String airDate) {
         this.airDate = airDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Double getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(Double voteAverage) {
+        this.voteAverage = voteAverage;
     }
 }

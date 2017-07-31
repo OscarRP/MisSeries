@@ -17,7 +17,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 /**
- * Created by Carlos Ruiz on 07/07/2017.
+ * Created by Oscar Ruiz on 07/07/2017.
  */
 
 public class SearchDetailSerie extends AsyncTask<Void, Void, ResponseSerie> {

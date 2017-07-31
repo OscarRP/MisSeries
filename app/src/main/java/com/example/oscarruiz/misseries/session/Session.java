@@ -1,5 +1,6 @@
 package com.example.oscarruiz.misseries.session;
 
+import com.example.oscarruiz.misseries.models.ResponseSerie;
 import com.example.oscarruiz.misseries.models.User;
 
 /**
@@ -18,6 +19,10 @@ public class Session {
      */
     private User user;
 
+    /**
+     * Selected serie
+     */
+    private ResponseSerie serie;
 
     /**
      * Method to create singleton
@@ -40,5 +45,13 @@ public class Session {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public ResponseSerie getSerie() {
+        return serie;
+    }
+
+    public void setSerie(ResponseSerie serie) {
+        this.serie = serie;
     }
 }

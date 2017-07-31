@@ -229,12 +229,6 @@ public class AddSerie extends AppCompatActivity {
                                 showMatches();
                             }
 
-                            //  if (saveSerie()) {
-                            //return to home activity
-                            //  startActivity(new Intent(AddSerie.this, HomeActivity.class));
-                            //close activity
-                            //    finish();
-                            //  }
                         }
                     }
                 }

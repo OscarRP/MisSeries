@@ -9,6 +9,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -23,6 +24,11 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
@@ -32,6 +38,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.oscarruiz.misseries.R;
 import com.example.oscarruiz.misseries.controllers.DataController;
 import com.example.oscarruiz.misseries.dialogs.Dialogs;
@@ -40,6 +49,7 @@ import com.example.oscarruiz.misseries.models.ResponseSerie;
 import com.example.oscarruiz.misseries.models.Serie;
 import com.example.oscarruiz.misseries.models.User;
 import com.example.oscarruiz.misseries.session.Session;
+import com.example.oscarruiz.misseries.utils.Animations;
 import com.example.oscarruiz.misseries.utils.Constants;
 
 import com.example.oscarruiz.misseries.controllers.SearchSerie;
@@ -56,9 +66,29 @@ import java.util.GregorianCalendar;
 public class DetailSerie extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     /**
+     * boolean indicates if zoomImageView is showing
+     */
+    private Boolean isImageZoom;
+
+    /**
+     * Animations
+     */
+    private Animations animations;
+
+    /**
+     * Image View zoom
+     */
+    private ImageView zoomImageView;
+
+    /**
+     * Content layout
+     */
+    private LinearLayout contentLayout;
+
+    /**
      * Add to calendar checkbox
      */
-    AppCompatCheckBox addCalendarCB;
+    private  AppCompatCheckBox addCalendarCB;
 
     /**
      * Add to calendar layout
@@ -74,6 +104,11 @@ public class DetailSerie extends AppCompatActivity implements DatePickerDialog.O
      * Resonse serie
      */
     private ResponseSerie detailSerie;
+
+    /**
+     * Serie ended text view
+     */
+    private TextView serieEndedTV;
 
     /**
      * Poster imageView
@@ -259,12 +294,17 @@ public class DetailSerie extends AppCompatActivity implements DatePickerDialog.O
         posterIV = (ImageView)findViewById(R.id.poster_imageview);
         addCalendarLayout = (LinearLayout)findViewById(R.id.add_calendar_layout);
         addCalendarCB = (AppCompatCheckBox)findViewById(R.id.add_to_calendar_check);
+        serieEndedTV = (TextView)findViewById(R.id.serie_ended);
+        contentLayout = (LinearLayout)findViewById(R.id.contentLayout);
+        zoomImageView = (ImageView)findViewById(R.id.zoomImage);
     }
 
     /**
      * Method to get serie info
      */
     private void getInfo() {
+
+        isImageZoom = false;
         position = getIntent().getExtras().getInt("position");
         serie = Session.getInstance().getUser().getSeries().get(position);
 
@@ -290,7 +330,6 @@ public class DetailSerie extends AppCompatActivity implements DatePickerDialog.O
         series = user.getSeries();
         date = serie.getNewSeason();
 
-
         if (serie.getId() == Constants.DEFAULT_ID) {
             noInfoLayout.setVisibility(View.VISIBLE);
             infoSerieLayout.setVisibility(View.GONE);
@@ -301,6 +340,7 @@ public class DetailSerie extends AppCompatActivity implements DatePickerDialog.O
                     if (responseSerie != null) {
 
                         detailSerie = responseSerie;
+                        titleTV.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
 
                         //set serie info
                         if (responseSerie.getAirDate() != null) {
@@ -321,6 +361,7 @@ public class DetailSerie extends AppCompatActivity implements DatePickerDialog.O
                         if (responseSerie.getPoster() != null) {
                             //set poster
                             Glide.with(DetailSerie.this).load(Constants.SERIE_POSTER+responseSerie.getPoster()).into(posterIV);
+                            Glide.with(DetailSerie.this).load(Constants.SERIE_POSTER+responseSerie.getPoster()).into(zoomImageView);
                         } else {
                             posterIV.setImageResource(R.mipmap.no_image_available);
                         }
@@ -332,6 +373,13 @@ public class DetailSerie extends AppCompatActivity implements DatePickerDialog.O
                                 genres =  genres + responseSerie.getGenres().get(i).getGenre() + " ";
                             }
                             genreTV.setText(genres);
+                        }
+
+                        //set status serie if its ended
+                        if (responseSerie.getStatus().equals(Constants.SERIE_STATUS_ENDED)) {
+                            serieEndedTV.setVisibility(View.VISIBLE);
+                        } else {
+                            serieEndedTV.setVisibility(View.GONE);
                         }
                     }
                 }
@@ -390,9 +438,12 @@ public class DetailSerie extends AppCompatActivity implements DatePickerDialog.O
         decreaseSeasonButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (season > 0){
+                if (season > 1){
                     season = season - 1;
                     seasonTV.setText(String.valueOf(season));
+                    //set chapter to 0 when season changes
+                    chapter = 0;
+                    lastChapterTV.setText(String.valueOf(chapter));
                 }
             }
         });
@@ -400,8 +451,14 @@ public class DetailSerie extends AppCompatActivity implements DatePickerDialog.O
         increaseSeasonButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                season = season + 1;
-                seasonTV.setText(String.valueOf(season));
+                //check season number
+                if (Integer.valueOf(seasonTV.getText().toString()) < detailSerie.getSeasons().size()) {
+                    season = season + 1;
+                    seasonTV.setText(String.valueOf(season));
+                    //set chapter to 0 when season changes
+                    chapter = 0;
+                    lastChapterTV.setText(String.valueOf(chapter));
+                }
             }
         });
 
@@ -418,8 +475,12 @@ public class DetailSerie extends AppCompatActivity implements DatePickerDialog.O
         increaseChapterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                chapter = chapter + 1;
-                lastChapterTV.setText(String.valueOf(chapter));
+                //check number of chapters of actual season selected
+                if (Integer.valueOf(lastChapterTV.getText().toString()) < detailSerie.getSeasons().get(Integer.valueOf(seasonTV.getText().toString())-1).getEpisodeCount()) {
+//                    Log.i("PRUEBA", "season id." +detailSerie.getSeasons().get(Integer.valueOf(seasonTV.getText().toString())).getId());
+                    chapter = chapter + 1;
+                    lastChapterTV.setText(String.valueOf(chapter));
+                }
             }
         });
 
@@ -484,6 +545,38 @@ public class DetailSerie extends AppCompatActivity implements DatePickerDialog.O
                 startActivity(intent);
             }
         });
+
+        posterIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (detailSerie.getPoster() != null) {
+                    //scale and center image
+                    animations = new Animations();
+                    animations.zoomImageAnimationsIn(DetailSerie.this, contentLayout, zoomImageView);
+                    isImageZoom = true;
+                }
+            }
+        });
+
+        zoomImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isImageZoom = false;
+                animations = new Animations();
+                animations.zoomImageAnimationsOut(DetailSerie.this, contentLayout, zoomImageView);
+            }
+        });
+
+//        titleTV.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //save selected serie in session
+//                Session session = Session.getInstance();
+//                session.setSerie(detailSerie);
+//                //go to info serie
+//                startActivity(new Intent(DetailSerie.this, InfoSerie.class));
+//            }
+//        });
     }
 
     /**
@@ -578,7 +671,13 @@ public class DetailSerie extends AppCompatActivity implements DatePickerDialog.O
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        //startActivity(new Intent(DetailSerie.this, HomeActivity.class));
+        if (isImageZoom) {
+            animations = new Animations();
+            animations.zoomImageAnimationsOut(DetailSerie.this, contentLayout, zoomImageView);
+            isImageZoom = false;
+        } else {
+            super.onBackPressed();
+            //startActivity(new Intent(DetailSerie.this, HomeActivity.class));
+        }
     }
 }
