@@ -17,6 +17,12 @@ import com.example.oscarruiz.misseries.R;
 import com.example.oscarruiz.misseries.controllers.DataController;
 import com.example.oscarruiz.misseries.models.User;
 import com.example.oscarruiz.misseries.session.Session;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -24,6 +30,21 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.example.oscarruiz.misseries.utils.Constants;
 
 public class RegisterActivity extends AppCompatActivity {
+
+    /**
+     * google login layout
+     */
+    private RelativeLayout googleLoginLayout;
+
+    /**
+     * Forgot password button
+     */
+    private Button forgotPassword;
+
+    /**
+     * Google Api client
+     */
+    private GoogleApiClient googleApiClient;
 
     /**
      * Loading layout
@@ -78,6 +99,18 @@ public class RegisterActivity extends AppCompatActivity {
         //Hide Action Bar
         getSupportActionBar().hide();
 
+        //init Google sign in options
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        //Google Api client
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                    }
+                })
+                .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
+                .build();
+
         //set data controller
         dataController = new DataController();
 
@@ -98,6 +131,7 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton = (Button)findViewById(R.id.register_button);
         registeredButton = (Button)findViewById(R.id.registered_button);
         loading = (RelativeLayout)findViewById(R.id.loading_layout);
+        googleLoginLayout = (RelativeLayout)findViewById(R.id.google_login);
     }
 
     /**
@@ -124,19 +158,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 //Save user in database
                                 dataController.saveUser(user);
 
-                                //save user is registered in preferences
-                                boolean userLogged = true;
-                                SharedPreferences sharedPreferences = RegisterActivity.this.getSharedPreferences(Constants.USER_LOGGED, Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putBoolean(Constants.USER_LOGGED, userLogged);
-                                editor.putString(Constants.UID, firebaseAuth.getCurrentUser().getUid());
-                                editor.commit();
-
-                                //Change activity to Home Activity
-                                startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
-
-                                //Close Activity
-                                finish();
+                                register();
 
                             } else {
                                 Toast.makeText(RegisterActivity.this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
@@ -152,6 +174,15 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //change activity to login
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            }
+        });
+
+        googleLoginLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //create intent to sign in
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+                startActivityForResult(signInIntent, Constants.GOOGLE_SIGN_IN);
             }
         });
     }
@@ -172,5 +203,45 @@ public class RegisterActivity extends AppCompatActivity {
         } else {
             return true;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Constants.GOOGLE_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if (result.isSuccess()) {
+                GoogleSignInAccount googleAccount = result.getSignInAccount();
+                user = new User(googleAccount.getEmail(), googleAccount.getDisplayName());
+
+                //save user in session
+                Session.getInstance().setUser(user);
+
+                register();
+            } else if (!result.isSuccess()) {
+                Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    /**
+     * Method to register user
+     */
+    private void register() {
+        //save user is registered in preferences
+        boolean userLogged = true;
+        SharedPreferences sharedPreferences = RegisterActivity.this.getSharedPreferences(Constants.USER_LOGGED, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(Constants.USER_LOGGED, userLogged);
+        editor.putString(Constants.UID, firebaseAuth.getCurrentUser().getUid());
+
+        editor.commit();
+
+        //Change activity to Home Activity
+        startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
+
+        //Close Activity
+        finish();
     }
 }

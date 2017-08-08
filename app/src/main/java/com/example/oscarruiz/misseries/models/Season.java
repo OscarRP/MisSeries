@@ -16,17 +16,36 @@ public class Season implements Serializable {
     @SerializedName("air_date")
     private String airDate;
 
+    /**
+     * Episode count
+     */
     @SerializedName("episode_count")
     private int episodeCount;
 
+    /**
+     * Season id
+     */
     @SerializedName("id")
     private int id;
 
+    /**
+     * Season poster path
+     */
     @SerializedName("poster_path")
     private String seasonPoster;
 
+    /**
+     * Season number
+     */
     @SerializedName("season_number")
     private int seasonNumber;
+
+    /**
+     * Season overview
+     */
+    @SerializedName("overview")
+    private String overview;
+
 
     public Season(String airDate, int episodeCount, int id, String seasonPoster, int seasonNumber) {
         this.airDate = airDate;
@@ -74,5 +93,13 @@ public class Season implements Serializable {
 
     public void setSeasonNumber(int seasonNumber) {
         this.seasonNumber = seasonNumber;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 }

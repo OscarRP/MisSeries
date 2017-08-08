@@ -3,6 +3,7 @@ package com.example.oscarruiz.misseries.activities;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -22,6 +23,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.text.style.DynamicDrawableSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -64,6 +66,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class DetailSerie extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+
+    /**
+     * Loading dialog
+     */
+    private Dialog loading;
 
     /**
      * boolean indicates if zoomImageView is showing
@@ -304,6 +311,7 @@ public class DetailSerie extends AppCompatActivity implements DatePickerDialog.O
      */
     private void getInfo() {
 
+
         isImageZoom = false;
         position = getIntent().getExtras().getInt("position");
         serie = Session.getInstance().getUser().getSeries().get(position);
@@ -334,9 +342,13 @@ public class DetailSerie extends AppCompatActivity implements DatePickerDialog.O
             noInfoLayout.setVisibility(View.VISIBLE);
             infoSerieLayout.setVisibility(View.GONE);
         } else {
+//            Dialogs dialogs = new Dialogs(DetailSerie.this);
+//            loading = dialogs.loadingDialog();
+//            loading.show();
             new SearchDetailSerie(serie.getId(), new AppInterfaces.ISearchDetailSerie() {
                 @Override
                 public void getDetailSerie(ResponseSerie responseSerie) {
+//                    loading.dismiss();
                     if (responseSerie != null) {
 
                         detailSerie = responseSerie;
@@ -386,48 +398,6 @@ public class DetailSerie extends AppCompatActivity implements DatePickerDialog.O
             }).execute();
 
         }
-//        //get serie info from Api
-//        new SearchSerie(serie.getTitle().replace(" ", "%20"), new AppInterfaces.ISearchSerie() {
-//            @Override
-//            public void getSerie(ResponseSerie responseSerie) {
-//                if (responseSerie != null) {
-//                    detailSerie = responseSerie;
-//
-//                    //set serie info
-//                    noInfoLayout.setVisibility(View.GONE);
-//                    infoSerieLayout.setVisibility(View.VISIBLE);
-//
-//                    //set poster
-//                    Glide.with(DetailSerie.this).load(Constants.SERIE_POSTER+responseSerie.getPoster()).into(posterIV);
-//
-//                    new SearchDetailSerie(responseSerie.getId(), new AppInterfaces.ISearchDetailSerie() {
-//                        @Override
-//                        public void getDetailSerie(ResponseSerie responseSerie) {
-//                            if (responseSerie != null) {
-//
-//                                //set serie info
-//                                yearTV.setText(String.valueOf(responseSerie.getAirDate().substring(0,4)));
-//                                durationTV.setText(String.valueOf(responseSerie.getEpisodeRunTime().get(0)));
-//                                seasonsTV.setText(String.valueOf(responseSerie.getSeasons().size()));
-//
-//                                //set serie genres
-//                                String genres = "";
-//                                for (int i=0; i<responseSerie.getGenres().size(); i++) {
-//
-//                                    genres =  genres + responseSerie.getGenres().get(i).getGenre() + " ";
-//                                }
-//                                genreTV.setText(genres);
-//                            }
-//                        }
-//                    }).execute();
-//
-//                } else {
-//                    noInfoLayout.setVisibility(View.VISIBLE);
-//                    infoSerieLayout.setVisibility(View.GONE);
-//                }
-//            }
-//        }).execute();
-
     }
 
     /**
@@ -476,10 +446,12 @@ public class DetailSerie extends AppCompatActivity implements DatePickerDialog.O
             @Override
             public void onClick(View view) {
                 //check number of chapters of actual season selected
-                if (Integer.valueOf(lastChapterTV.getText().toString()) < detailSerie.getSeasons().get(Integer.valueOf(seasonTV.getText().toString())-1).getEpisodeCount()) {
+                if (detailSerie.getSeasons().size() > 0) {
+                    if (Integer.valueOf(lastChapterTV.getText().toString()) < detailSerie.getSeasons().get(Integer.valueOf(seasonTV.getText().toString())-1).getEpisodeCount()) {
 //                    Log.i("PRUEBA", "season id." +detailSerie.getSeasons().get(Integer.valueOf(seasonTV.getText().toString())).getId());
-                    chapter = chapter + 1;
-                    lastChapterTV.setText(String.valueOf(chapter));
+                        chapter = chapter + 1;
+                        lastChapterTV.setText(String.valueOf(chapter));
+                    }
                 }
             }
         });
@@ -567,16 +539,16 @@ public class DetailSerie extends AppCompatActivity implements DatePickerDialog.O
             }
         });
 
-//        titleTV.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //save selected serie in session
-//                Session session = Session.getInstance();
-//                session.setSerie(detailSerie);
-//                //go to info serie
-//                startActivity(new Intent(DetailSerie.this, InfoSerie.class));
-//            }
-//        });
+        titleTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //save selected serie in session
+                Session session = Session.getInstance();
+                session.setSerie(detailSerie);
+                //go to info serie
+                startActivity(new Intent(DetailSerie.this, InfoSerie.class));
+            }
+        });
     }
 
     /**

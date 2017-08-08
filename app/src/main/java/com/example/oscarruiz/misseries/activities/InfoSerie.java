@@ -4,6 +4,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.oscarruiz.misseries.R;
 import com.example.oscarruiz.misseries.adapters.ViewPagerMatchesAdapter;
@@ -43,7 +44,6 @@ public class InfoSerie extends AppCompatActivity {
 
         getViews();
         setInfo();
-        setListeners();
     }
 
     /**
@@ -52,14 +52,6 @@ public class InfoSerie extends AppCompatActivity {
     private void getViews() {
         tabLayout = (TabLayout)findViewById(R.id.tablayout);
         viewPager = (ViewPager)findViewById(R.id.viewpager);
-
-    }
-
-    /**
-     * Method to set listeners
-     */
-    private void setListeners() {
-
     }
 
     /**
@@ -77,7 +69,7 @@ public class InfoSerie extends AppCompatActivity {
             tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.season) + " " + String.valueOf(i+1)));
         }
 
-      //  adapter = new ViewPagerSerieInfo(InfoSerie.this.getSupportFragmentManager(), tabLayout.getId(), serie);
+        adapter = new ViewPagerSerieInfo(InfoSerie.this, InfoSerie.this.getSupportFragmentManager(), serie.getSeasons().size(), serie);
         viewPager.setAdapter(adapter);
 
         tabLayout.setupWithViewPager(viewPager);

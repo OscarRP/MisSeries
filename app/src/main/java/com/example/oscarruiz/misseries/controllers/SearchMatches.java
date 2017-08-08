@@ -33,7 +33,7 @@ public class SearchMatches  extends AsyncTask<Void, Void, ArrayList<ResponseSeri
     private String title;
 
     /**
-     * Código de respuesta de la conexión
+     * Conection response code
      */
     private int code_resp;
 

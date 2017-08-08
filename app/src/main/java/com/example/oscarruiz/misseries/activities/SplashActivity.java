@@ -161,11 +161,14 @@ public class SplashActivity extends AppCompatActivity {
                     SharedPreferences sharedPreferences = SplashActivity.this.getSharedPreferences(Constants.USER_LOGGED, Context.MODE_PRIVATE);
                     boolean userLoged = sharedPreferences.getBoolean(Constants.USER_LOGGED, false);
                     String uid = sharedPreferences.getString(Constants.UID, "");
+                    String email = sharedPreferences.getString(Constants.UID, "");
 
                     if (userLoged) {
                         //save user in session
                         //load user from database
+
                         uid = firebaseAuth.getCurrentUser().getUid();
+
                         DatabaseReference ref = database.getReference().child("users").child(uid);
                         ref.addValueEventListener(new ValueEventListener() {
                             @Override

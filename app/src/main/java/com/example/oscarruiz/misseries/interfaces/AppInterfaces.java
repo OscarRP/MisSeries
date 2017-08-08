@@ -1,6 +1,7 @@
 package com.example.oscarruiz.misseries.interfaces;
 
 import com.example.oscarruiz.misseries.models.ResponseSerie;
+import com.example.oscarruiz.misseries.models.Season;
 
 import java.util.ArrayList;
 
@@ -44,4 +45,12 @@ public class AppInterfaces {
     public interface ISearchMatches {
         public abstract void getMatches(ArrayList<ResponseSerie> matchesList);
     }
+
+    /**
+     * Interface to search serie season
+     */
+    public interface ISearchSeason {
+        public abstract void getSeason(Season season);
+    }
+
 }

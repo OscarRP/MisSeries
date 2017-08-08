@@ -14,9 +14,16 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.oscarruiz.misseries.R;
+import com.example.oscarruiz.misseries.dialogs.Dialogs;
 import com.example.oscarruiz.misseries.models.User;
 import com.example.oscarruiz.misseries.session.Session;
 import com.example.oscarruiz.misseries.utils.Constants;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -34,6 +41,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
+
+    /**
+     * Forgot password button
+     */
+    private Button forgotPassword;
 
     /**
      * Loading layout
@@ -111,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = (Button)findViewById(R.id.login_button);
         notRegisteredButton = (Button)findViewById(R.id.not_registered_button);
         loading = (RelativeLayout)findViewById(R.id.loading_layout);
+        forgotPassword = (Button)findViewById(R.id.forgot_password);
     }
 
     /**
@@ -149,19 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                                         //save user in session
                                         Session.getInstance().setUser(user);
 
-                                        //Se guarda en sharedPreferences que el usuario ya ha entrado
-                                        boolean userLogged = true;
-                                        SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences(Constants.USER_LOGGED, Context.MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.putBoolean(Constants.USER_LOGGED, userLogged);
-                                        editor.putString(Constants.UID, firebaseAuth.getCurrentUser().getUid());
-                                        editor.commit();
-
-                                        //change activity to home
-                                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-
-                                        //close activity
-                                        finish();
+                                        doLogin();
                                     }
 
                                     @Override
@@ -171,6 +172,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             } else {
                                 Toast.makeText(LoginActivity.this, getResources().getString(R.string.login_error), Toast.LENGTH_SHORT).show();
+                                loading.setVisibility(View.GONE);
                             }
                         }
                     });
@@ -183,6 +185,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //change activity to register activity
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+            }
+        });
+
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dialogs dialogs = new Dialogs(LoginActivity.this);
+                dialogs.forgotPasswordDialog(LoginActivity.this).show();
             }
         });
 
@@ -201,5 +211,27 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             return true;
         }
+    }
+
+    /**
+     * Method to do login
+     */
+    private void doLogin() {
+        //save user in session
+        Session.getInstance().setUser(user);
+
+        //Se guarda en sharedPreferences que el usuario ya ha entrado
+        boolean userLogged = true;
+        SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences(Constants.USER_LOGGED, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(Constants.USER_LOGGED, userLogged);
+        editor.putString(Constants.UID, firebaseAuth.getCurrentUser().getUid());
+        editor.commit();
+
+        //change activity to home
+        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+
+        //close activity
+        finish();
     }
 }

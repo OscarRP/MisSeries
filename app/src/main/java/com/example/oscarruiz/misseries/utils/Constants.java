@@ -1,5 +1,7 @@
 package com.example.oscarruiz.misseries.utils;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Oscar Ruiz on 05/07/2017.
  */
@@ -62,6 +64,10 @@ public class Constants {
     public static final String SEARCH_SERIE_URL = "/tv/";
 
     /**
+     * SEARCH SEASON URL
+     */
+
+    /**
      * serie poster URL
      */
     public static final String SERIE_POSTER = "https://image.tmdb.org/t/p/w500/";
@@ -105,4 +111,17 @@ public class Constants {
      * serie status ended
      */
     public static final String SERIE_STATUS_ENDED = "Ended";
+
+    /**
+     * Google sign in request code
+     */
+    public static final int GOOGLE_SIGN_IN = 25;
+
+    /**
+     * Serie status
+     */
+    public interface SERIE_STATUS {
+        String ENDED = "Ended";
+        String RETURNING = "Returning Series";
+    }
 }

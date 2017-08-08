@@ -35,6 +35,34 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:id="@+id/google_login"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/google_sign_in"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@mipmap/google_logo"
+                android:layout_alignTop="@+id/textView"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/google_login"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/google_sign_in"
+                android:id="@+id/textView" />
+        </RelativeLayout>
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

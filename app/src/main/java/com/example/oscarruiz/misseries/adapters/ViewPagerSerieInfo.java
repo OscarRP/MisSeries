@@ -12,15 +12,26 @@ import android.widget.LinearLayout;
 
 import com.example.oscarruiz.misseries.R;
 import com.example.oscarruiz.misseries.fragments.SerieInfoFragment;
+import com.example.oscarruiz.misseries.fragments.SerieSeasonFragment;
 import com.example.oscarruiz.misseries.models.ResponseSerie;
 
 import java.util.ArrayList;
 
 /**
- * Created by Carlos Ruiz on 27/07/2017.
+ * Created by Oscar Ruiz on 27/07/2017.
  */
 
 public class ViewPagerSerieInfo extends FragmentPagerAdapter {
+
+    /**
+     * Context
+     */
+    private Context context;
+
+    /**
+     * Selected serie
+     */
+    private ResponseSerie serie;
 
     /**
      * fragment list
@@ -30,104 +41,69 @@ public class ViewPagerSerieInfo extends FragmentPagerAdapter {
     /**
      * list of tabs
      */
-    private ArrayList<Integer> tabs;
+    private int tabs;
 
-    public ViewPagerSerieInfo(FragmentManager fm, ArrayList<Integer> tabs, ResponseSerie serie) {
+    public ViewPagerSerieInfo(Context context, FragmentManager fm, int tabs, ResponseSerie serie) {
         super(fm);
         this.tabs = tabs;
+        this.serie = serie;
+        this.context = context;
+
         this.fragments = createListFragment();
     }
 
 
     @Override
     public Fragment getItem(int position) {
-        return null;
+        return this.fragments.get(position);
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return fragments.size();
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        String title = "";
+
+        if (position == 0) {
+            title = context.getResources().getString(R.string.tab_info);
+        } else {
+            title = context.getResources().getString(R.string.season)+ " " + position;
+        }
+        return title;
     }
 
     /**
      * Method to create fragment list
-     * @return
      */
     private ArrayList<Fragment> createListFragment(){
 
         //create list
         ArrayList<Fragment> fragments = new ArrayList<>();
         //create fragment with categories
-        for(int i =0;i<tabs.size();i++){
+        for(int i = 0; i < tabs; i++){
             //create fragment
-            SerieInfoFragment fragment = new SerieInfoFragment();
-            //set fragemnt info
-            //fragment.setFragemntInfo();
-            //add fragment to list
-            fragments.add(fragment);
+            if (i==0) {
+                //info fragment
+                SerieInfoFragment fragment = new SerieInfoFragment();
+                //set fragemnt info
+                fragment.setPosition(i, serie);
+                //add fragment to list
+                fragments.add(fragment);
+
+            } else {
+                //season fragment
+                SerieSeasonFragment fragment = new SerieSeasonFragment();
+                //set fragemnt info
+                fragment.setPosition(i, serie);
+                //add fragment to list
+                fragments.add(fragment);
+            }
         }
 
         //return list
         return fragments;
     }
-
-//    /**
-//     * tabLayout position
-//     */
-//    private int tabPosition;
-//
-//    /**
-//     * Context
-//     */
-//    private Context context;
-//
-//    public ViewPagerSerieInfo(Context context, int tabPosition) {
-//        this.tabPosition = tabPosition;
-//        this.context = context;
-//    }
-//
-//    @Override
-//    public int getCount() {
-//        return 0;
-//    }
-//
-//    @Override
-//    public boolean isViewFromObject(View view, Object object) {
-//        return view == object;
-//    }
-//
-//    @Override
-//    public Object instantiateItem(ViewGroup pager, int position) {
-//        //Actual view
-//        final View view;
-//
-//        //inflate view
-//        LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        view = layoutInflater.inflate(R.layout.serie_info_item, null);
-//
-//        //get views
-//        final LinearLayout infoLayout = (LinearLayout)view.findViewById(R.id.info_layout);
-//        final LinearLayout seasonLayout = (LinearLayout)view.findViewById(R.id.season_layout);
-//
-//        if (position == 0) {
-//            infoLayout.setVisibility(View.VISIBLE);
-//            seasonLayout.setVisibility(View.GONE);
-//        } else {
-//            infoLayout.setVisibility(View.GONE);
-//            seasonLayout.setVisibility(View.VISIBLE);
-//        }
-//
-//        //add view to viewpager
-//        pager.addView(view);
-//
-//        return view;
-//    }
-//
-//    /**
-//     * Method to delete viewpager view
-//     */
-//    @Override
-//    public void destroyItem(ViewGroup pager, int position, Object object) {
-//        pager.removeView((View) object);
-//    }
 }

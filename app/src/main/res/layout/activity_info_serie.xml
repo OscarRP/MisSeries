@@ -24,12 +24,20 @@
             android:textAllCaps="true"/>
     </LinearLayout>
 
-    <android.support.design.widget.TabLayout
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tablayout">
+        android:scrollbars="none">
 
-    </android.support.design.widget.TabLayout>
+        <android.support.design.widget.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tablayout"
+            app:tabTextColor="@color/colorPrimaryDark">
+
+        </android.support.design.widget.TabLayout>
+    </HorizontalScrollView>
+
 
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"

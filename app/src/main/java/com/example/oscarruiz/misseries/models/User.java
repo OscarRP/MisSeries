@@ -36,9 +36,9 @@ public class User {
         this.password = password;
     }
 
-    public User(String email, String password) {
+    public User(String email, String nick) {
         this.email = email;
-        this.password = password;
+        this.nick = nick;
     }
 
     public String getNick() {
