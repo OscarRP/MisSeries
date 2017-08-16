@@ -125,12 +125,9 @@ public class HomeActivity extends AppCompatActivity {
         //Hide Action Bar
         getSupportActionBar().hide();
 
-        //Check internet connection
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-
         Dialogs dialogs = new Dialogs(HomeActivity.this);
-        if (netInfo == null || !netInfo.isConnected()) {
+
+        if (!isOnline()) {
             AlertDialog dialog = dialogs.showConnectionErrorDialog(HomeActivity.this);
             dialog.show();
         } else {
@@ -179,6 +176,9 @@ public class HomeActivity extends AppCompatActivity {
                 adapter = new SeriesListAdapter(series, this, false, null);
                 listView.setAdapter(adapter);
             }
+        } else {
+            //go to splash if theres no user
+            startActivity(new Intent(HomeActivity.this, SplashActivity.class));
         }
 
         //Create options menu
@@ -452,19 +452,20 @@ public class HomeActivity extends AppCompatActivity {
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnected();
+        if (netInfo == null || !netInfo.isConnected()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        //Check internet connection
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
 
         Dialogs dialogs = new Dialogs(HomeActivity.this);
-        if (netInfo == null || !netInfo.isConnected()) {
+        if (!isOnline()) {
             AlertDialog dialog = dialogs.showConnectionErrorDialog(HomeActivity.this);
             dialog.show();
         } else {
